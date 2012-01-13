@@ -1,0 +1,6 @@
+#+TITLE: GSView Portable
+#+AUTHOR: Matthew L. Fidler
+This is a NSIS installer for GSViewPortable.  It uses the
+file-structure indicated [[http://www.portablefreeware.com/forums/viewtopic.php?p=9475][here]].  The actual installer is at
+[[http://code.google.com/p/gsview-portable-net-installer/downloads/list][Google Code]].
+
