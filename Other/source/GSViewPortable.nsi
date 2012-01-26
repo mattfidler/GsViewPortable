@@ -8,6 +8,9 @@ RequestExecutionLevel user
 OutFile "..\..\GSViewPortable.exe"
 Icon "gsview.ico"
 
+!include "FileFunc.nsh"
+!insertmacro GetParameters
+
 !macro _PathIfExist ARG1
   DetailPrint "Checking for ${ARG1}"
   StrCpy $9 ""
@@ -21,21 +24,22 @@ Icon "gsview.ico"
 Section "Main" sec_main ; Checked
   ; Description:
   ; Main Section for GvEdit Launch
-  IfFileExists "$EXEDIR\App\GSviewPortable.exe" launch not_found
-  launch:
+  IfFileExists "$EXEDIR\App\gsview\gsview32.exe" launch not_found
+  launch:                               
     IfFileExists $EXEDIR\Data +2
     SetOutPath '$EXEDIR\Data'
     ${PathIfExist} "$EXEDIR\App\gsview"
     
     ${PathIfExist} "$EXEDIR\App\pstoedit"
     ${PathIfExist} "$EXEDIR\App\gm"
-    
-    ${PathIfExist} "$TEMP\App\gs8.64\bin"
+
+    ${PathIfExist} "$EXEDIR\App\gs9.04\bin"
     ;; BZR_HOME
-    System::Call 'Kernel32::SetEnvironmentVariableA(t, t) i("GS_LIB", "$EXEDIR\App\gs8.64\lib").r3'
-    System::Call 'Kernel32::SetEnvironmentVariableA(t, t) i("GS_DLL", "$EXEDIR\App\gs8.64\bin\gsdll32.dll").r3'
-    System::Call 'Kernel32::SetEnvironmentVariableA(t, t) i("GS", "$EXEDIR\App\gs8.64\bin\gswin32c.exe").r3'
-    Exec "$EXEDIR\App\GSviewPortable.exe"
+    System::Call 'Kernel32::SetEnvironmentVariableA(t, t) i("GS_LIB", "$EXEDIR\App\gs9.04\lib").r3'
+    System::Call 'Kernel32::SetEnvironmentVariableA(t, t) i("GS_DLL", "$EXEDIR\App\gs9.04\bin\gsdll32.dll").r3'
+    System::Call 'Kernel32::SetEnvironmentVariableA(t, t) i("GS", "$EXEDIR\App\gs9.04\bin\gswin32c.exe").r3'
+    ${GetParameters} $R1
+    Exec "$EXEDIR\App\gsview\gsview32.exe /a $R1"
     Goto end
   not_found:
     MessageBox MB_OK "Could not find gsview32.exe. Installation corrupt."
